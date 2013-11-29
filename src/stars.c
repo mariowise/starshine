@@ -7,10 +7,6 @@
 
 #define SEPARATOR "\t"
 
-void pushRow(int * row) {
-
-}
-
 void load(char * filePath, int xini, int xfin, int yini, int yfin) {
 
 	// Apertura del archivo de entrada
@@ -32,7 +28,7 @@ void load(char * filePath, int xini, int xfin, int yini, int yfin) {
 	int * row = NULL;
 	int rowLen = 0;
 
-	int i = 0, j = 0, li = 0, lj = 0;
+	int i = 0, j = 0, li = 0, lj = 0, k;
 	char * token = NULL;
 
 	read = getline(&line, &len, fd);
@@ -45,7 +41,7 @@ void load(char * filePath, int xini, int xfin, int yini, int yfin) {
 
 	matrix = (int *) malloc(sizeof(int *) * matrix_size_y);
 
-	
+
 	while((read = getline(&line, &len, fd)) != -1) {
 
 		if(i >= (yini-1) && i <= (yfin+1)) {
@@ -55,22 +51,22 @@ void load(char * filePath, int xini, int xfin, int yini, int yfin) {
 			if(j >= (xini-1) && j <= (xfin+1)) {
 				row = (int *) realloc(row, sizeof(int) * (rowLen+1));
 				row[rowLen++] = atoi(token);
-				lj++;
-				matrix_size_y++;
+				matrix_size_x = 1;
 
-				printf("%d\t", row[rowLen-1]);
+				// printf("%d\t", row[rowLen-1]);
 			}
 
 			j++;
+
 
 			while((token = strtok(NULL, SEPARATOR)) != NULL) {
 				
 				if(j >= (xini-1) && j <= (xfin+1)) {
 					row = (int *) realloc(row, sizeof(int) * (rowLen+1));
 					row[rowLen++] = atoi(token);
-					lj++;
+					matrix_size_x++;
 
-					printf("%d\t", row[rowLen-1]);
+					// printf("%d\t", row[rowLen-1]);
 				}
 
 				j++;
@@ -78,29 +74,32 @@ void load(char * filePath, int xini, int xfin, int yini, int yfin) {
 			}
 
 			matrix[li] = row;
-			matrix_size_x++;
+			matrix_size_y++;
 			row = NULL;
 			rowLen = 0;
 
-			printf("\n");
+			// printf("\n");
 
 		}
 
 		i++;
 		li++;
 		j = 0;
-		lj = 0;
 
 	}
 
 	free(line);
 
-	printf("---\n");
+	printf("---%dx%d\n", matrix_size_x, matrix_size_y);
 
 	for(i = 0; i < matrix_size_y; i++) {
 	for(j = 0; j < matrix_size_x; j++)
 		printf("%d\t", matrix[i][j]);
 	printf("\n");
 	}
+
+}
+
+void process() {
 
 }
