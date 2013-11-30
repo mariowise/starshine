@@ -28,6 +28,6 @@ clean:
 
 run:
 	@ clear
-	@ $(OUTPUT) -i etc/input.mat -m 1
+	@ mpirun -n 1 $(OUTPUT) -i etc/input.mat -m 1
 
 me: clean main run
